@@ -513,6 +513,7 @@ GameObject:
   - component: {fileID: 349643257}
   - component: {fileID: 349643256}
   - component: {fileID: 349643261}
+  - component: {fileID: 349643264}
   - component: {fileID: 349643260}
   - component: {fileID: 349643259}
   - component: {fileID: 349643262}
@@ -773,6 +774,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   attackCooldown: 1
+--- !u!114 &349643264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 349643255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f6b7a8b4bd0d54b8fa8542770cd2d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  maxHealth: 3
 --- !u!1 &400059460
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,6 +1588,7 @@ GameObject:
   - component: {fileID: 773655375}
   - component: {fileID: 773655374}
   - component: {fileID: 773655373}
+  - component: {fileID: 773655378}
   m_Layer: 8
   m_Name: "\u2014Pngtree\u2014icons set for isometric game_7588265_0"
   m_TagString: Untagged
@@ -1841,7 +1856,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773655372}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -1947,6 +1962,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &773655378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773655372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d315bc0ca8a15c14f8824a8f35726de8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyDamage
+  damage: 1
 --- !u!1 &876157224
 GameObject:
   m_ObjectHideFlags: 0
@@ -2110,7 +2138,7 @@ Transform:
   m_GameObject: {fileID: 1051982161}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.0243, y: -0.1775, z: 0}
+  m_LocalPosition: {x: -0.0243, y: -0.202, z: 0}
   m_LocalScale: {x: 1, y: 1.04, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2353,7 +2381,7 @@ GameObject:
   - component: {fileID: 1727351308}
   - component: {fileID: 1727351307}
   - component: {fileID: 1727351306}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}

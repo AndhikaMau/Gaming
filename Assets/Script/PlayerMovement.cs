@@ -31,6 +31,7 @@ void Update()
     // Jika mati, hentikan semua kontrol
     if (health != null && health.IsDead)
     {
+        anim.SetFloat("Speed", 0);
         return;
     }
 

@@ -37,19 +37,23 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-void Die()
+    void Die()
     {
+        if (IsDead)
+            return;
+
         IsDead = true;
 
-        // Jalankan animasi mati
-        anim.SetBool("IsDead", true);
+        // Hentikan gerakan horizontal saja
+        rb.linearVelocity =
+            new Vector2(0f, rb.linearVelocity.y);
 
-        // Hentikan gerakan horizontal
-        if (rb != null)
-        {
-            rb.linearVelocity =
-                new Vector2(0f, rb.linearVelocity.y);
-        }
+        // Reset parameter animator
+        anim.SetFloat("Speed", 0);
+        anim.SetBool("IsGrounded", true);
+
+        // Paksa masuk animasi mati
+        anim.Play("playerdeath", 0, 0f);
 
         Debug.Log("Player Mati");
     }
