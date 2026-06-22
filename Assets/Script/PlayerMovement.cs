@@ -7,9 +7,15 @@ public float jumpForce = 10f;
 public float dashSpeed = 15f;
 public float dashDuration = 0.2f;
 
+public Transform groundCheck;
+public float groundCheckRadius = 0.2f;
+public LayerMask groundLayer;
+
 private Rigidbody2D rb;
 private Animator anim;
+private PlayerHealth health;
 
+private bool isGrounded;
 private bool isDashing = false;
 private bool facingRight = true;
 
@@ -17,11 +23,24 @@ void Start()
 {
     rb = GetComponent<Rigidbody2D>();
     anim = GetComponent<Animator>();
+    health = GetComponent<PlayerHealth>();
 }
 
 void Update()
 {
-    if (isDashing) return;
+    // Jika mati, hentikan semua kontrol
+    if (health != null && health.IsDead)
+    {
+        return;
+    }
+
+    if (isDashing)
+        return;
+
+    isGrounded = Physics2D.OverlapCircle(
+        groundCheck.position,
+        groundCheckRadius,
+        groundLayer);
 
     float move = 0;
 
@@ -31,11 +50,13 @@ void Update()
     if (Input.GetKey(KeyCode.D))
         move = 1;
 
-    rb.linearVelocity = new Vector2(move * speed, rb.linearVelocity.y);
+    rb.linearVelocity =
+        new Vector2(move * speed,
+                    rb.linearVelocity.y);
 
     // Animator
     anim.SetFloat("Speed", Mathf.Abs(move));
-    anim.SetBool("IsGrounded", Mathf.Abs(rb.linearVelocity.y) < 0.1f);
+    anim.SetBool("IsGrounded", isGrounded);
 
     // Flip karakter
     if (move > 0 && !facingRight)
@@ -44,13 +65,17 @@ void Update()
     if (move < 0 && facingRight)
         Flip();
 
-    // Lompat (W)
-    if (Input.GetKeyDown(KeyCode.W))
+    // Lompat
+    if (Input.GetKeyDown(KeyCode.W) &&
+        isGrounded)
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        rb.linearVelocity =
+            new Vector2(
+                rb.linearVelocity.x,
+                jumpForce);
     }
 
-    // Dash (K)
+    // Dash
     if (Input.GetKeyDown(KeyCode.K))
     {
         StartCoroutine(Dash());
@@ -61,11 +86,16 @@ private System.Collections.IEnumerator Dash()
 {
     isDashing = true;
 
-    float direction = facingRight ? 1f : -1f;
+    float direction =
+        facingRight ? 1f : -1f;
 
-    rb.linearVelocity = new Vector2(direction * dashSpeed, 0);
+    rb.linearVelocity =
+        new Vector2(
+            direction * dashSpeed,
+            0);
 
-    yield return new WaitForSeconds(dashDuration);
+    yield return new WaitForSeconds(
+        dashDuration);
 
     isDashing = false;
 }
@@ -74,9 +104,25 @@ void Flip()
 {
     facingRight = !facingRight;
 
-    Vector3 scale = transform.localScale;
+    Vector3 scale =
+        transform.localScale;
+
     scale.x *= -1;
-    transform.localScale = scale;
+
+    transform.localScale =
+        scale;
+}
+
+private void OnDrawGizmosSelected()
+{
+    if (groundCheck == null)
+        return;
+
+    Gizmos.color = Color.green;
+
+    Gizmos.DrawWireSphere(
+        groundCheck.position,
+        groundCheckRadius);
 }
 
 }
