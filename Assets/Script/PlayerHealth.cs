@@ -6,8 +6,11 @@ public class PlayerHealth : MonoBehaviour
     public int maxHealth = 3;
     public float invincibleTime = 1f;
 
-    // Drag object HealthUI ke sini
+    // UI Hati
     public HealthUI healthUI;
+
+    // Panel Game Over
+    public GameObject gameOverPanel;
 
     private int currentHealth;
     private Animator anim;
@@ -26,10 +29,14 @@ public class PlayerHealth : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
 
-        // Tampilkan hati saat game mulai
         if (healthUI != null)
         {
             healthUI.UpdateHearts(currentHealth);
+        }
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
         }
     }
 
@@ -40,7 +47,6 @@ public class PlayerHealth : MonoBehaviour
 
         currentHealth -= damage;
 
-        // Update UI hati
         if (healthUI != null)
         {
             healthUI.UpdateHearts(currentHealth);
@@ -84,6 +90,19 @@ public class PlayerHealth : MonoBehaviour
         isInvincible = false;
     }
 
+    IEnumerator ShowGameOver()
+    {
+        // tunggu animasi mati selesai
+        yield return new WaitForSecondsRealtime(1.0f);
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+
+        Time.timeScale = 0f;
+    }
+
     void Die()
     {
         if (IsDead)
@@ -96,7 +115,6 @@ public class PlayerHealth : MonoBehaviour
 
         anim.SetFloat("Speed", 0);
 
-        // Sembunyikan semua hati
         if (healthUI != null)
         {
             healthUI.UpdateHearts(0);
@@ -104,6 +122,8 @@ public class PlayerHealth : MonoBehaviour
 
         // Paksa langsung masuk animasi mati
         anim.Play("playerdeath", 0, 0f);
+
+        StartCoroutine(ShowGameOver());
 
         Debug.Log("Player Mati");
     }
