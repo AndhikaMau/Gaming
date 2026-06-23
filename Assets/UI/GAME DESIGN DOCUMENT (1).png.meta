@@ -1,22 +1,10 @@
 fileFormatVersion: 2
-guid: e79c048883c16af4a9648576d1447d34
+guid: 1003991fb11a3354fa475ba816e2187a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8353975286202075610
-    second: bg1_clouds_0
-  - first:
-      213: -4645016987298512486
-    second: bg1_clouds_1
-  - first:
-      213: -7098380428465873284
-    second: bg1_clouds_2
-  - first:
-      213: 4945897262862287498
-    second: bg1_clouds_3
-  - first:
-      213: -6755191635947062741
-    second: bg1_clouds_4
+      213: -4369904419659058121
+    second: GAME DESIGN DOCUMENT (1)_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -58,7 +46,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -125,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: bg1_clouds_0
+      name: GAME DESIGN DOCUMENT (1)_0
       rect:
         serializedVersion: 2
-        x: 235
-        y: 389
-        width: 42
-        height: 9
+        x: 612
+        y: 406
+        width: 696
+        height: 271
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,96 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ad98774f2484fe370800000000000000
-      internalID: 8353975286202075610
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bg1_clouds_1
-      rect:
-        serializedVersion: 2
-        x: 496
-        y: 391
-        width: 69
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a91ca6019a5998fb0800000000000000
-      internalID: -4645016987298512486
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bg1_clouds_2
-      rect:
-        serializedVersion: 2
-        x: 635
-        y: 386
-        width: 78
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c7ed4b0fb9c7d7d90800000000000000
-      internalID: -7098380428465873284
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bg1_clouds_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 371
-        width: 99
-        height: 19
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a82cb782b5b53a440800000000000000
-      internalID: 4945897262862287498
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: bg1_clouds_4
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 720
-        height: 384
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b2a7fa56ffcb042a0800000000000000
-      internalID: -6755191635947062741
+      spriteID: 734ffc3451bfa53c0800000000000000
+      internalID: -4369904419659058121
       vertices: []
       indices: 
       edges: []
@@ -238,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -248,11 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      bg1_clouds_0: 8353975286202075610
-      bg1_clouds_1: -4645016987298512486
-      bg1_clouds_2: -7098380428465873284
-      bg1_clouds_3: 4945897262862287498
-      bg1_clouds_4: -6755191635947062741
+      GAME DESIGN DOCUMENT (1)_0: -4369904419659058121
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
