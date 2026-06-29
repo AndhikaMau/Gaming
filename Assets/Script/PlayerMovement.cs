@@ -2,144 +2,153 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-public float speed = 5f;
-public float jumpForce = 10f;
-public float dashSpeed = 15f;
-public float dashDuration = 0.2f;
+    public float speed = 5f;
+    public float jumpForce = 10f;
+    public float dashSpeed = 15f;
+    public float dashDuration = 0.2f;
 
-public Transform groundCheck;
-public float groundCheckRadius = 0.2f;
-public LayerMask groundLayer;
+    public Transform groundCheck;
+    public float groundCheckRadius = 0.2f;
+    public LayerMask groundLayer;
 
-private Rigidbody2D rb;
-private Animator anim;
-private PlayerHealth health;
+    private Rigidbody2D rb;
+    private Animator anim;
+    private PlayerHealth health;
+    private PlayerAudio playerAudio;
 
-private bool isGrounded;
-private bool isDashing = false;
-private bool facingRight = true;
+    private bool isGrounded;
+    private bool wasGrounded;
+    private bool isDashing = false;
+    private bool facingRight = true;
 
-void Start()
-{
-    rb = GetComponent<Rigidbody2D>();
-    anim = GetComponent<Animator>();
-    health = GetComponent<PlayerHealth>();
-}
-
-void Update()
-{   
-    if (Time.timeScale == 0f)
-    return;
-
-    // Jika mati, hentikan semua kontrol
-    if (health != null && health.IsDead)
+    void Start()
     {
-        anim.SetFloat("Speed", 0);
-        return;
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        health = GetComponent<PlayerHealth>();
+        playerAudio = GetComponent<PlayerAudio>();
     }
 
-    if (isDashing)
-        return;
+    void Update()
+    {
+        if (Time.timeScale == 0f)
+            return;
 
-    isGrounded = Physics2D.OverlapCircle(
-        groundCheck.position,
-        groundCheckRadius,
-        groundLayer);
+        if (health != null && health.IsDead)
+        {
+            anim.SetFloat("Speed", 0);
+            return;
+        }
 
-    float move = 0;
+        if (isDashing)
+            return;
 
-    if (Input.GetKey(KeyCode.A))
-        move = -1;
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position,
+            groundCheckRadius,
+            groundLayer);
 
-    if (Input.GetKey(KeyCode.D))
-        move = 1;
+        // Suara saat baru menyentuh tanah
+        if (!wasGrounded && isGrounded)
+        {
+            if (playerAudio != null)
+                playerAudio.PlayLand();
+        }
 
-    rb.linearVelocity =
-        new Vector2(move * speed,
+        wasGrounded = isGrounded;
+
+        float move = 0;
+
+        if (Input.GetKey(KeyCode.A))
+            move = -1;
+
+        if (Input.GetKey(KeyCode.D))
+            move = 1;
+
+        rb.linearVelocity =
+            new Vector2(move * speed,
+                        rb.linearVelocity.y);
+
+        anim.SetFloat("Speed", Mathf.Abs(move));
+        anim.SetBool("IsGrounded", isGrounded);
+
+        if (move > 0 && !facingRight)
+            Flip();
+
+        if (move < 0 && facingRight)
+            Flip();
+
+        // Jump
+        if (Input.GetKeyDown(KeyCode.W) && isGrounded)
+        {
+            if (playerAudio != null)
+                playerAudio.PlayJump();
+
+            rb.linearVelocity =
+                new Vector2(
+                    rb.linearVelocity.x,
+                    jumpForce);
+        }
+
+        // Dash
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            if (playerAudio != null)
+                playerAudio.PlayDash();
+
+            StartCoroutine(Dash());
+        }
+    }
+
+    private System.Collections.IEnumerator Dash()
+    {
+        isDashing = true;
+
+        float direction = facingRight ? 1f : -1f;
+
+        float currentSpeed = dashSpeed;
+        float elapsed = 0f;
+
+        while (elapsed < dashDuration)
+        {
+            rb.linearVelocity =
+                new Vector2(
+                    direction * currentSpeed,
                     rb.linearVelocity.y);
 
-    // Animator
-    anim.SetFloat("Speed", Mathf.Abs(move));
-    anim.SetBool("IsGrounded", isGrounded);
+            currentSpeed = Mathf.Lerp(
+                dashSpeed,
+                speed,
+                elapsed / dashDuration);
 
-    // Flip karakter
-    if (move > 0 && !facingRight)
-        Flip();
+            elapsed += Time.deltaTime;
 
-    if (move < 0 && facingRight)
-        Flip();
+            yield return null;
+        }
 
-    // Lompat
-    if (Input.GetKeyDown(KeyCode.W) &&
-        isGrounded)
-    {
-        rb.linearVelocity =
-            new Vector2(
-                rb.linearVelocity.x,
-                jumpForce);
+        isDashing = false;
     }
 
-    // Dash
-    if (Input.GetKeyDown(KeyCode.K))
+    void Flip()
     {
-        StartCoroutine(Dash());
-    }
-}
+        facingRight = !facingRight;
 
-private System.Collections.IEnumerator Dash()
-{
-    isDashing = true;
+        Vector3 scale = transform.localScale;
 
-    float direction =
-        facingRight ? 1f : -1f;
+        scale.x *= -1;
 
-    float currentSpeed = dashSpeed;
-
-    float elapsed = 0f;
-
-    while (elapsed < dashDuration)
-    {
-        rb.linearVelocity =
-            new Vector2(
-                direction * currentSpeed,
-                rb.linearVelocity.y);
-
-        currentSpeed = Mathf.Lerp(
-            dashSpeed,
-            speed,
-            elapsed / dashDuration);
-
-        elapsed += Time.deltaTime;
-
-        yield return null;
+        transform.localScale = scale;
     }
 
-    isDashing = false;
-}
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck == null)
+            return;
 
-void Flip()
-{
-    facingRight = !facingRight;
+        Gizmos.color = Color.green;
 
-    Vector3 scale =
-        transform.localScale;
-
-    scale.x *= -1;
-
-    transform.localScale =
-        scale;
-}
-
-private void OnDrawGizmosSelected()
-{
-    if (groundCheck == null)
-        return;
-
-    Gizmos.color = Color.green;
-
-    Gizmos.DrawWireSphere(
-        groundCheck.position,
-        groundCheckRadius);
-}
-
+        Gizmos.DrawWireSphere(
+            groundCheck.position,
+            groundCheckRadius);
+    }
 }
